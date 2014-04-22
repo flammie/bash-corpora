@@ -49,4 +49,5 @@ fi
 
 find $LL -name '*.xml' -exec cat {} \; |\
     awk '/<text>/,/<\/text>/ {print;}' |\
-    sed -e 's/<[^>]*>//g' -e 's/%quot%/’/g' -e 's/%gt%/>/g'
+    sed -e 's/<[^>]*>//g' -e 's/%quot%/’/g' -e 's/%gt%/>/g' -e 's/%auml%/ä/g' \
+        -e 's/%ouml%/ö/g'
