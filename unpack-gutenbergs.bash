@@ -57,8 +57,11 @@ if test -z $FENC ; then
     FENC="latin1"
 fi
 
+# gutenbergs are a bit of a mess when robot downoloaded
 find $GUTENBERGS -name '*.zip' -exec unzip -c {} "*.$FORMAT" \; |\
     iconv -f $FENC -t utf8 |\
+    sed -e 's/Ã¤/ä/g' -e 's/Ã¶/ö/g' |\
+    dos2unix |\
     awk '/START OF .* PROJECT GUTENBERG EBOOK/,/END OF .* PROJECT GUTENBERG EBOOK/ {print;}' |\
     sed -e 's/START OF.*//' -e 's/END OF.*//'
 
