@@ -7,7 +7,9 @@ else
     DEST=$HOME/bin/
 fi
 SCRIPTS="fetch-europarl.bash fetch-gutenberg.bash fetch-wikimedia.bash \
-    unpack-europarl.bash unpack-gutenbergs.bash unpack-wikimedia.bash"
+    fetch-jrc-acquis.bash \
+    unpack-europarl.bash unpack-gutenbergs.bash unpack-wikimedia.bash\
+    unpack-jrc-acquis.bash"
 if ! test -d $DEST ; then
     install -d  $DEST
 fi
