@@ -23,6 +23,16 @@ version() {
 EOVERS
 }
 
+HTML_ENTITIES=html-entity-names.sed
+if ! test -f html-entity-names.sed ; then
+    if test -f "$(dirname $0)/html-entities.sed" ; then
+        HTML_ENTITIES="$(dirname $0)/html-entities.sed"
+    else
+        echo "Cannot find html-entities.sed"
+        exit 1
+    fi
+fi
+
 while test $# -gt 0 ; do
     case $1 in
         -h|--help)
@@ -38,4 +48,4 @@ done
 cat $FILES |\
     awk 'BEGIN {PRINT=0;} /<body/ {PRINT=1} /<(script|style)/ {PRINT-=1;} /<\/(script|style)/ {PRINT+=1;} /.*/ {if (PRINT==1) {print;}}' |\
     sed -e 's/<[^>]*>//g' |\
-    sed -f html-entity-names.sed
+    sed -f ${HTML_ENTITIES}
