@@ -44,7 +44,7 @@ if test -z $LL ; then
 fi
 
 if test -f "jrc-$LL.tgz" ; then
-    tar zxvf "jrc-$LL.tgz"
+    tar zxf "jrc-$LL.tgz"
 fi
 
 find $LL -name '*.xml' -exec cat {} \; |\
