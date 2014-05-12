@@ -4,7 +4,7 @@
 
 usage() {
     cat<<-EOUSAGE
-    Usage: $0 [OPTIONS...] [MIRRORDIR [FORMAT [FENC]]]
+    Usage: $0 [OPTIONS...] [MIRRORDIR [FORMAT]]
     Unpack and clean fetched gutenberg files into one corpus. Removes licence
     info and other metadata, and converts encoding to UTF-8 as possible.
 
@@ -40,8 +40,6 @@ while test $# -gt 0 ; do
                 GUTENBERGS=$1;
             elif test -z $FORMAT ; then
                 FORMAT=$1;
-            elif test -z $FENC ; then
-                FENC=$1
             fi;;
     esac
     shift
@@ -53,15 +51,23 @@ fi
 if test -z $FORMAT ; then
     FORMAT="txt"
 fi
-if test -z $FENC ; then
-    FENC="latin1"
-fi
 
-# gutenbergs are a bit of a mess when robot downoloaded
-find $GUTENBERGS -name '*.zip' -exec unzip -c {} "*.$FORMAT" \; |\
-    iconv -f $FENC -t utf8 |\
-    sed -e 's/Ã¤/ä/g' -e 's/Ã¶/ö/g' |\
-    dos2unix |\
-    awk '/START OF .* PROJECT GUTENBERG EBOOK/,/END OF .* PROJECT GUTENBERG EBOOK/ {print;}' |\
-    sed -e 's/START OF.*//' -e 's/END OF.*//'
+# gutenbergs are a bit of a mess when robot downloaded
+find $GUTENBERGS -name '*.zip' > .gutenberglist.tmp
+for f in $(< .gutenberglist.tmp) ; do
+    echo ${f}... 1>&2
+    FENC=$(unzip -c $f | fgrep -m 1 "Character set encoding" | sed -e 's/^.*: //' | dos2unix)
+    if test -z $FENC ; then
+        echo "missing Character set encoding, skipping" 1>&2
+        continue
+    elif test $FENC = "ASCII" ; then
+        echo "$FENC, skipping" 1>&2
+        continue
+    fi
+    unzip -c $f |\
+        iconv -f $FENC -t utf8//TRANSLIT//IGNORE |\
+        dos2unix |\
+        awk '/START OF .* PROJECT GUTENBERG EBOOK/,/END OF .* PROJECT GUTENBERG EBOOK/ {print;}' |\
+        sed -e 's/START OF.*//' -e 's/END OF.*//'
+done
 
