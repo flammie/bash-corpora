@@ -9,7 +9,8 @@ fi
 SCRIPTS="fetch-europarl.bash fetch-gutenberg.bash fetch-wikimedia.bash \
     fetch-jrc-acquis.bash \
     unpack-europarl.bash unpack-gutenbergs.bash unpack-wikimedia.bash\
-    unpack-jrc-acquis.bash"
+    unpack-jrc-acquis.bash \
+    html-entity-names.sed xml-entity-codes.sed"
 if ! test -d $DEST ; then
     install -d  $DEST
 fi

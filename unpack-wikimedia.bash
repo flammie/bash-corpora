@@ -32,6 +32,25 @@ version() {
 EOVERS
 }
 
+HTML_ENTITIES=html-entity-names.sed
+if ! test -f html-entity-names.sed ; then
+    if test -f "$(dirname $0)/html-entities.sed" ; then
+        HTML_ENTITIES="$(dirname $0)/html-entities.sed"
+    else
+        echo "Cannot find html-entities.sed"
+        exit 1
+    fi
+fi
+XML_ENTITIES=xml-entity-codes.sed
+if ! test -f xml-entity-codes.sed ; then
+    if test -f "$(dirname $0)/xml-entities.sed" ; then
+        HTML_ENTITIES="$(dirname $0)/xml-entities.sed"
+    else
+        echo "Cannot find html-entities.sed"
+        exit 1
+    fi
+fi
+
 while test $# -gt 0 ; do
     case $1 in
         -h|--help)
@@ -81,12 +100,13 @@ if test -f $DUMPFILE ; then
         -e "s/'''*//g" \
         -e 's/^{\?|.*//g' \
         -e 's/^\[\[[a-z]*:.*//g' \
-        -e 's/\&amp;nbsp;/ /g' \
-        -e 's/\&quot;/"/g' \
         -e 's/[a-z]*=[a-z0-9]*//g' \
         -e 's/^[!:-].*//g' \
-        -e 's/Category://g' |\
-        tr -s "[=|]{}<>&*" " "
+        -e 's/Category://g' \
+        -e 's/\&amp;/&/g' \ |\
+        sed -f ${HTML_ENTITIES} |\
+        sed -f ${XML_ENTITIES} |\
+        tr -s "[=|]{}<>*" " "
 else
     echo "Fetched data not foudnd in $DUMPFILE"
     exit 2
