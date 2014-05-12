@@ -13,7 +13,7 @@ EOUSAGE
 
 version() {
     cat<<-EOVERS
-    fetch-europarl.bash (Flammie's useful corpora kludges) 0.1
+    fetch-jrc-acquis.bash (Flammie's useful corpora kludges) 0.1
     Copyright © 2013 Flammie Pirinen
     Licence GPLv3+: GPL version 3 or newer <http://gnu.org/licenses/gpl.html>.
     This is free software: you are free to change and redistribute it.
