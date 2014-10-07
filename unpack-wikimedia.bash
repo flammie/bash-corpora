@@ -44,7 +44,7 @@ fi
 XML_ENTITIES=xml-entity-codes.sed
 if ! test -f xml-entity-codes.sed ; then
     if test -f "$(dirname $0)/xml-entity-codes.sed" ; then
-        HTML_ENTITIES="$(dirname $0)/xml-entity-codes.sed"
+        XML_ENTITIES="$(dirname $0)/xml-entity-codes.sed"
     else
         echo "Cannot find html-entities.sed"
         exit 1
@@ -103,7 +103,7 @@ if test -f $DUMPFILE ; then
         -e 's/[a-z]*=[a-z0-9]*//g' \
         -e 's/^[!:-].*//g' \
         -e 's/Category://g' \
-        -e 's/\&amp;/&/g' \ |\
+        -e 's/\&amp;/&/g' |\
         sed -f ${HTML_ENTITIES} |\
         sed -f ${XML_ENTITIES} |\
         tr -s "[=|]{}<>*" " "
