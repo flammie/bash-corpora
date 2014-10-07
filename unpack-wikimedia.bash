@@ -34,8 +34,8 @@ EOVERS
 
 HTML_ENTITIES=html-entity-names.sed
 if ! test -f html-entity-names.sed ; then
-    if test -f "$(dirname $0)/html-entities.sed" ; then
-        HTML_ENTITIES="$(dirname $0)/html-entities.sed"
+    if test -f "$(dirname $0)/html-entity-names.sed" ; then
+        HTML_ENTITIES="$(dirname $0)/html-entity-names.sed"
     else
         echo "Cannot find html-entities.sed"
         exit 1
@@ -43,8 +43,8 @@ if ! test -f html-entity-names.sed ; then
 fi
 XML_ENTITIES=xml-entity-codes.sed
 if ! test -f xml-entity-codes.sed ; then
-    if test -f "$(dirname $0)/xml-entities.sed" ; then
-        HTML_ENTITIES="$(dirname $0)/xml-entities.sed"
+    if test -f "$(dirname $0)/xml-entity-codes.sed" ; then
+        HTML_ENTITIES="$(dirname $0)/xml-entity-codes.sed"
     else
         echo "Cannot find html-entities.sed"
         exit 1
