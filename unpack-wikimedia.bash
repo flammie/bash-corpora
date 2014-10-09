@@ -32,23 +32,32 @@ version() {
 EOVERS
 }
 
-HTML_ENTITIES=html-entity-names.sed
-if ! test -f html-entity-names.sed ; then
-    if test -f "$(dirname $0)/html-entity-names.sed" ; then
-        HTML_ENTITIES="$(dirname $0)/html-entity-names.sed"
-    else
-        echo "Cannot find html-entities.sed"
-        exit 1
+find_entities() {
+    ENTITIES=$1
+    if ! test -f $1 ; then
+        if test -f "$(dirname $0)/$1" ; then
+            ENTITIES="$(dirname $0)/$1"
+        else
+            echo ""
+        fi
     fi
+    echo $ENTITIES
+}
+
+COMMON_ENTITIES=$(find_entities common-sgml-entities.sed)
+HTML_ENTITIES=$(find_entities html-entity-names.sed)
+XML_ENTITIES=$(find_entities xml-entity-codes.sed)
+if test -z $COMMON_ENTITIES ; then
+    echo cannot find common-sgml-entities.sed
+    exit 1
 fi
-XML_ENTITIES=xml-entity-codes.sed
-if ! test -f xml-entity-codes.sed ; then
-    if test -f "$(dirname $0)/xml-entity-codes.sed" ; then
-        XML_ENTITIES="$(dirname $0)/xml-entity-codes.sed"
-    else
-        echo "Cannot find html-entities.sed"
-        exit 1
-    fi
+if test -z $HTML_ENTITIES ; then
+    echo cannot find html-entity-names.sed
+    exit 1
+fi
+if test -z $XML_ENTITIES ; then
+    echo cannot find xml-entity-codes.sed
+    exit 1
 fi
 
 while test $# -gt 0 ; do
@@ -104,8 +113,7 @@ if test -f $DUMPFILE ; then
         -e 's/^[!:-].*//g' \
         -e 's/Category://g' \
         -e 's/\&amp;/&/g' |\
-        sed -f ${HTML_ENTITIES} |\
-        sed -f ${XML_ENTITIES} |\
+        sed -f ${COMMON_ENTITIES} |\
         tr -s "[=|]{}<>*" " "
 else
     echo "Fetched data not foudnd in $DUMPFILE"
