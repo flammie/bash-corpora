@@ -6,7 +6,6 @@ bin_SCRIPTS=clean-html.bash \
 			fetch-jrc-acquis.bash \
 			fetch-tatoeba.bash \
 			fetch-wikimedia.bash \
-			install-scripts.bash \
 			unpack-europarl.bash \
 			unpack-gutenbergs.bash \
 			unpack-jrc-acquis.bash \
