@@ -119,6 +119,7 @@ if test -f $DUMPFILE ; then
         -e 's/Category://g' \
         -e 's/\&amp;/&/g' |\
         python3 ${PYTHON_ENTITIES} |\
+        python3 ${PYTHON_ENTITIES} |\
         tr -s "[=|]{}<>*" " "
 else
     echo "Fetched data not foudnd in $DUMPFILE"
