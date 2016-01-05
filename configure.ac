@@ -22,6 +22,9 @@ AM_INIT_AUTOMAKE([-Wall -Werror -Wno-portability foreign])
 # arguments
 
 # Programs
+AM_PATH_PYTHON([3.4],, [:])
+AS_IF([test x$PYTHON = x:], [AC_MSG_ERROR([python-3.4 is required for html.unescape])])
+
 AC_PATH_PROG([WGET], [wget], [false])
 AC_PATH_PROGS([TAR], [gnutar gtar tar], [false])
 AC_PATH_PROG([ICONV], [iconv], [false])
