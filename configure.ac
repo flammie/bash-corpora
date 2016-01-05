@@ -28,6 +28,9 @@ AC_PATH_PROG([ICONV], [iconv], [false])
 AC_PATH_PROG([UCONV], [uconv], [false])
 AC_PATH_PROGS([DOS2UNIX], [dos2unix fromdos], [false])
 
+AS_IF([test x$DOS2UNIX = xfalse], [AC_MSG_ERROR([dos2unix or fromdos is required])])
+
+
 # some oses are broken
 AC_PATH_PROGS_FEATURE_CHECK([SED], [gnused gsed sed],
               [[m4out=`echo aaa | $ac_path_SED 's/a/\n/g' | wc -l`
