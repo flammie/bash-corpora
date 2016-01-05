@@ -16,7 +16,7 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([flammie-bash-corpora], [20150101], [https://github.com/flammie/bash-corpora/issues], [flammie-bash-corpora])
+AC_INIT([flammie-bash-corpora], [20160105], [https://github.com/flammie/bash-corpora/issues], [flammie-bash-corpora])
 AM_INIT_AUTOMAKE([-Wall -Werror -Wno-portability foreign])
 
 # arguments
