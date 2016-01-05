@@ -47,6 +47,7 @@ find_entities() {
 COMMON_ENTITIES=$(find_entities common-sgml-entities.sed)
 HTML_ENTITIES=$(find_entities html-entity-names.sed)
 XML_ENTITIES=$(find_entities xml-entity-codes.sed)
+PYTHON_ENTITIES=$(find_entities unescape-xmlish-entities.py)
 if test -z $COMMON_ENTITIES ; then
     echo cannot find common-sgml-entities.sed
     exit 1
@@ -56,6 +57,10 @@ if test -z $HTML_ENTITIES ; then
     exit 1
 fi
 if test -z $XML_ENTITIES ; then
+    echo cannot find xml-entity-codes.sed
+    exit 1
+fi
+if test -z $PYTHON_ENTITIES ; then
     echo cannot find xml-entity-codes.sed
     exit 1
 fi
@@ -113,7 +118,7 @@ if test -f $DUMPFILE ; then
         -e 's/^[!:-].*//g' \
         -e 's/Category://g' \
         -e 's/\&amp;/&/g' |\
-        sed -f ${COMMON_ENTITIES} |\
+        python3 ${PYTHON_ENTITIES} |\
         tr -s "[=|]{}<>*" " "
 else
     echo "Fetched data not foudnd in $DUMPFILE"
