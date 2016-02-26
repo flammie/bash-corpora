@@ -55,8 +55,7 @@ fi
 # gutenbergs are a bit of a mess when robot downloaded
 find $GUTENBERGS -name '*.zip' > .gutenberglist.tmp
 for f in $(< .gutenberglist.tmp) ; do
-    echo ${f}... 1>&2
-    FENC=$(unzip -c $f | fgrep -m 1 "Character set encoding" | sed -e 's/^.*: //' | dos2unix)
+    FENC=$(unzip -c $f | fgrep -a -m 1 "Character set encoding" | sed -e 's/^.*: //' | dos2unix)
     if test -z $FENC ; then
         echo "missing Character set encoding, skipping" 1>&2
         continue

@@ -16,17 +16,23 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([flammie-bash-corpora], [20150101], [https://github.com/flammie/bash-corpora/issues], [flammie-bash-corpora])
+AC_INIT([flammie-bash-corpora], [20160105], [https://github.com/flammie/bash-corpora/issues], [flammie-bash-corpora])
 AM_INIT_AUTOMAKE([-Wall -Werror -Wno-portability foreign])
 
 # arguments
 
 # Programs
+AM_PATH_PYTHON([3.4],, [:])
+AS_IF([test x$PYTHON = x:], [AC_MSG_ERROR([python-3.4 is required for html.unescape])])
+
 AC_PATH_PROG([WGET], [wget], [false])
 AC_PATH_PROGS([TAR], [gnutar gtar tar], [false])
 AC_PATH_PROG([ICONV], [iconv], [false])
 AC_PATH_PROG([UCONV], [uconv], [false])
 AC_PATH_PROGS([DOS2UNIX], [dos2unix fromdos], [false])
+
+AS_IF([test x$DOS2UNIX = xfalse], [AC_MSG_ERROR([dos2unix or fromdos is required])])
+
 
 # some oses are broken
 AC_PATH_PROGS_FEATURE_CHECK([SED], [gnused gsed sed],

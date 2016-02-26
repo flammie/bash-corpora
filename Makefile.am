@@ -10,6 +10,9 @@ bin_SCRIPTS=clean-html.bash \
 			unpack-gutenbergs.bash \
 			unpack-jrc-acquis.bash \
 			unpack-tatoeba.bash \
-			unpack-wikimedia.bash
-
+			unpack-wikimedia.bash \
+			xml-entity-codes.sed \
+			html-entity-names.sed \
+			common-sgml-entities.sed \
+			unescape-xmlish-entities.py
 # vim: set foldmethod=marker:
