@@ -20,11 +20,19 @@ AC_INIT([flammie-bash-corpora], [20160105], [https://github.com/flammie/bash-cor
 AM_INIT_AUTOMAKE([-Wall -Werror -Wno-portability foreign])
 
 # arguments
+AC_ARG_WITH([wikiextractor],
+            [AS_HELP_STRING([--with-wikiextractor],
+                            [path to WikiExtractor.py @<:@default=/usr/local@:>@])],
+            [with_wikiextractor=$withval],
+            [with_wikiextractor=.])
+
 
 # Programs
 AM_PATH_PYTHON([3.4],, [:])
 AS_IF([test x$PYTHON = x:], [AC_MSG_ERROR([python-3.4 is required for html.unescape])])
-
+AC_PATH_PROGS([WIKIEXTRACTOR], [wikiextractor WikiExtractor.py], [false])
+AC_PATH_PROG([WIKIEXTRACTORPY], [WikiExtractor.py], [false], 
+             [$PATH$PATH_SEPARATOR$with_wikiextractor])
 AC_PATH_PROG([WGET], [wget], [false])
 AC_PATH_PROGS([TAR], [gnutar gtar tar], [false])
 AC_PATH_PROG([ICONV], [iconv], [false])
@@ -42,7 +50,11 @@ AC_PATH_PROGS_FEATURE_CHECK([SED], [gnused gsed sed],
               [AC_MSG_ERROR([could not find sed that supports new line])])
 AC_SUBST([SED], [$ac_cv_path_SED])
 
+
+
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([unpack-wikimedia.bash],
+                [chmod +x unpack-wikimedia.bash])
 AC_OUTPUT
 
 cat <<EOF
