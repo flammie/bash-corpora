@@ -99,7 +99,10 @@ fi
 
 DUMPFILE=$PROJECT-$DATE-$DATA.xml.bz2
 if test -f $DUMPFILE ; then
-    bzcat $DUMPFILE |\
+    if test -f @WIKIEXTRACTORPY@ ; then
+        python @WIKIEXTRACTORPY@ $DUMPFILE
+    else
+        bzcat $DUMPFILE |\
         awk '/<text/,/<\/text/ {print}' |\
         iconv -c -f utf8 -t utf8//IGNORE |\
         awk "/(^[[:alnum:]=']|^ *$)/ {print;}" |\
@@ -121,6 +124,7 @@ if test -f $DUMPFILE ; then
         python3 ${PYTHON_ENTITIES} |\
         python3 ${PYTHON_ENTITIES} |\
         tr -s "[=|]{}<>*" " "
+    fi
 else
     echo "Fetched data not foudnd in $DUMPFILE"
     exit 2
