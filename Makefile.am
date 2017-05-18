@@ -14,5 +14,6 @@ bin_SCRIPTS=clean-html.bash \
 			xml-entity-codes.sed \
 			html-entity-names.sed \
 			common-sgml-entities.sed \
-			unescape-xmlish-entities.py
+			unescape-xmlish-entities.py \
+			random-lines.bash
 # vim: set foldmethod=marker:
