@@ -100,7 +100,8 @@ fi
 DUMPFILE=$PROJECT-$DATE-$DATA.xml.bz2
 if test -f $DUMPFILE ; then
     if test -f @WIKIEXTRACTORPY@ ; then
-        python @WIKIEXTRACTORPY@ $DUMPFILE
+        python @WIKIEXTRACTORPY@ --lists -o - $DUMPFILE |\
+            egrep -v '^</?doc'
     else
         bzcat $DUMPFILE |\
         awk '/<text/,/<\/text/ {print}' |\
