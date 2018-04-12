@@ -32,6 +32,8 @@ while test $# -gt 0 ; do
         *)
             if test -z $LL ; then
                 LL=$1;
+            elif test -z $YEAR ; then
+                YEAR=$2
             fi;;
     esac
     shift
@@ -40,8 +42,10 @@ done
 if test -z $LL ; then
     usage
     exit 1
+elif test -z $YEAR ; then
+    YEAR=2018
 fi
 
-if test -f "OpenSubtitles2016.raw.$LL.gz" ; then
-    zcat "OpenSubtitles2016.raw.$LL.gz"
+if test -f "OpenSubtitles$YEAR.raw.$LL.gz" ; then
+    zcat "OpenSubtitles$YEAR.raw.$LL.gz"
 fi

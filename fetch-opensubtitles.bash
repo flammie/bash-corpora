@@ -4,13 +4,11 @@
 
 usage() {
     cat<<-EOUSAGE
-    Usage: $0 [OPTIONS...] LANG [LANG2 | tokenised | not-2016]
+    Usage: $0 [OPTIONS...] LANG [YEAR]
     Fetch open subtitles.
 
     LANG is ISO 639 code, such as en, de, fi etc.
-    LANG2 will fetch aligned pair
-    tokenised will fetch pre-tokenised data
-    four digit series will attempt to download different year version
+    YEAR is for year, e.g 2016 or 2018
 EOUSAGE
 }
 
@@ -28,17 +26,18 @@ EOVERS
 
 if test $# = 1 ; then
     LL=$1
+    YEAR=2018
 elif test $# = 2 ; then
     LL=$1
-    ARG=$2
+    YEAR=$2
 else
     usage
     exit 1
 fi
 
 if type -p wget ; then
-    URL=http://opus.lingfil.uu.se/download.php?f=OpenSubtitles2016/mono/OpenSubtitles2016.raw.$LL.gz
-    if ! wget "$URL" -O OpenSubtitles2016.raw.$LL.gz ; then
+    URL=http://opus.lingfil.uu.se/download.php?f=OpenSubtitles$YEAR/mono/OpenSubtitles$YEAR.raw.$LL.gz
+    if ! wget "$URL" -O OpenSubtitles$YEAR.raw.$LL.gz ; then
         echo "Fetching $LL failed, see above for further info"
         exit
     fi
